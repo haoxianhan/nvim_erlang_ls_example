@@ -3,13 +3,12 @@
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function()
+require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
   use 'neovim/nvim-lspconfig'
-
-  end)
+end)
 
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -44,16 +43,13 @@ end
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { 'erlang_ls' }
-for _, lsp in pairs(servers) do
-  require('lspconfig')[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      cmd = {"erlang_ls"},
-      filetypes = {"erlang"},
-      root_dir = function() return vim.fn.getcwd() end,
-      -- This will be the default in neovim 0.7+
-      debounce_text_changes = 150,
-    }
+require('lspconfig').erlangls.setup {
+  on_attach = on_attach,
+  flags = {
+    cmd = {"erlang_ls"},
+    filetypes = {"erlang"},
+    root_dir = function() return vim.fn.getcwd() end,
+    -- This will be the default in neovim 0.7+
+    debounce_text_changes = 150,
   }
-end
+}
